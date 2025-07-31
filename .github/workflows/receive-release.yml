@@ -12,13 +12,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download artifact from other repo
-        uses: actions/download-artifact@v4
+        uses: dawidd6/action-download-artifact@v11
         with:
-          github-token: ${{ secrets.RELEASE_TKN }}
+          github_token: ${{ secrets.RELEASE_TKN }}
           name: plugin-package
-          repository: Fabi-P/fw-custom-meta
+          workflow: upload-artifact.yml
+          repo: Fabi-P/fw-custom-meta
           path: release-assets
-          merge-multiple: true
 
       - name: Extract metadata
         id: meta
