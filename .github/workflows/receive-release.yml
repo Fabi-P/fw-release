@@ -4,21 +4,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  release:
+  download-artifact:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download artifact from triggering repo
-        uses: dawidd6/action-download-artifact@v11
+      - name: Download artifact from other repo
+        uses: actions/download-artifact@v4
         with:
-          github_token: ${{ secrets.RELEASE_TKN }}
-          workflow: create-release.yml
+          github-token: ${{ secrets.RELEASE_TKN }}
           name: plugin-package
-          repo: Fabi-P/fw-custom-meta
-          if_no_artifact_found: fail
+          repository: Fabi-P/fw-custom-meta
           path: release-assets/
 
       - name: Extract metadata
@@ -28,7 +26,7 @@ jobs:
           changelog=$(jq -r '.sections.changelog // empty' release-assets/info.json)
           echo "version=$version" >> "$GITHUB_OUTPUT"
           echo "changelog=$changelog" >> "$GITHUB_OUTPUT"
-
+  
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
