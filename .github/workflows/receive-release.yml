@@ -3,6 +3,9 @@ name: Receive and Create Plugin Release
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   download-artifact:
     runs-on: ubuntu-latest
